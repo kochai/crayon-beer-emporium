@@ -1,17 +1,17 @@
-import {FC} from 'React';
+import {SelectHTMLAttributes, FC} from 'react';
+import {clsx} from 'clsx';
 
 interface Option {
     value: string;
     label: string;
 }
 
-interface SelectProps {
-    id: string;
+interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
     label: string;
-    value: string;
-    onChange: (value: string) => void;
     options: Option[];
-    className?: string;
+    onChange: (value: string) => void;
+    wrapperClassName?: string;
+    labelClassName?: string;
 }
 
 const Select: FC<SelectProps> = ({
@@ -20,15 +20,18 @@ const Select: FC<SelectProps> = ({
                                      value,
                                      onChange,
                                      options,
-                                     className = 'border rounded p-1'
+                                     wrapperClassName,
+                                     className,
+                                     ...props
                                  }) => (
-    <div className="flex items-center">
+    <div className={clsx(["flex items-center", wrapperClassName])}>
         <label htmlFor={id} className="mr-2">{label}</label>
         <select
             id={id}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className={className}
+            className={clsx(['border rounded p-1', className])}
+            {...props}
         >
             {options.map((option) => (
                 <option key={option.value} value={option.value}>
