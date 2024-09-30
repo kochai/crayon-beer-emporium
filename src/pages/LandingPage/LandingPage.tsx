@@ -5,16 +5,14 @@ import BeerCard from '../../features/beerCatalog/components/BeerCard';
 import Header from '../../shared/Header';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorMessage from '../../shared/ErrorMessage';
-import CatalogSortingAndFilter from '../../features/beerCatalog/components/CatalogFilterSort';
+import BeerCatalogFilters from '../../features/beerCatalog/components/BeerCatalogFilters';
 
 const LandingPage: FC = () => {
     const {
         loading,
         error,
-        sortBy,
         fetchBeers,
-        setSortBy,
-        getSortedBeers,
+        getSortedAndFilteredBeers,
         handleBuy
     } = useBeerCatalogStore();
 
@@ -22,7 +20,7 @@ const LandingPage: FC = () => {
         fetchBeers();
     }, [fetchBeers]);
 
-    const sortedBeers = getSortedBeers();
+    const sortedAndFilteredBeers = getSortedAndFilteredBeers();
 
     if (loading) {
         return (<LoadingSpinner/>);
@@ -34,12 +32,12 @@ const LandingPage: FC = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <Header text="Our Beer Catalog">
-                <CatalogSortingAndFilter sortBy={sortBy} setSortBy={setSortBy}/>
+            <Header text="Craft Beer Catalog">
+                <BeerCatalogFilters />
             </Header>
             <section aria-label="Beer catalog">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 list-none">
-                    {sortedBeers.map((beer) => (
+                    {sortedAndFilteredBeers.map((beer) => (
                         <li key={beer.id} tabIndex={0}>
                             <BeerCard beer={beer} onBuy={handleBuy}/>
                         </li>
