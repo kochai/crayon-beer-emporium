@@ -16,8 +16,8 @@ const BeerCard: FC<BeerCardProps> = ({beer, onBuy}) => {
     };
     return (
         <div
-            className="bg-white rounded-lg shadow-md overflow-hidden h-full">
-            <div className="flex p-4 h-full">
+            className="bg-white rounded-lg border shadow-md overflow-hidden h-full">
+            <div className="flex p-4 h-full items-center">
                 <div className="flex-shrink-0 w-20 h-28 mr-4">
                     {
                         imageError ? (
