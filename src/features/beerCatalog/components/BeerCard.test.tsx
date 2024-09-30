@@ -2,12 +2,12 @@ import {render} from '@testing-library/react';
 import {vi, describe, it} from 'vitest';
 import BeerCard from './BeerCard';
 import {MemoryRouter} from 'react-router-dom';
-import {Beer} from '../../types/Beer';
+import {Beer} from '../types/Beer';
 import {
     assertButtonClick,
     assertLinkInDocument,
     assertTextInDocument
-} from '../../test/utils';
+} from '../../../test/utils';
 
 const mockBeer: Beer = {
     "price": "$16.99",

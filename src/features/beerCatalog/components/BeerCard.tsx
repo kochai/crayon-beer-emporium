@@ -1,7 +1,7 @@
 import {FC, useState} from 'react';
 import {Link} from 'react-router-dom';
 
-import {Beer} from '../../types/Beer';
+import {Beer} from '../types/Beer';
 
 interface BeerCardProps {
     beer: Beer;
