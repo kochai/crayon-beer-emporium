@@ -1,7 +1,5 @@
 import {Beer} from '../features/beerCatalog/types/Beer';
-
-const beerStyles = ['IPA', 'Stout', 'Lager', 'Pale Ale', 'Porter'];
-const breweries = ['Hoppy Brewers', 'Malt Masters', 'Craft Kings'];
+import {beerStyles, breweries} from '../features/beerCatalog/store/beerStore';
 
 const getRandomElement = <T>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)];
