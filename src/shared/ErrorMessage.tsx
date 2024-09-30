@@ -1,4 +1,4 @@
-import {FC} from 'React';
+import {FC} from 'react';
 
 interface ErrorMessageProps {
     message: string;
