@@ -7,7 +7,7 @@ import ImagePlaceholder from '../../../shared/ImagePlaceholder';
 import ErrorMessage from '../../../shared/ErrorMessage';
 import Button, {buttonBaseClasses, buttonSizeClasses, buttonVariantClasses} from '../../../shared/Button';
 import clsx from 'clsx';
-import EnrichedBeerData from "../../beerCatalog/components/EnrichedBeerData";
+import EnrichedBeerDataLazy from "../../beerCatalog/components/EnrichedBeerData";
 
 const BeerDetailsPage: FC = () => {
     const {id} = useParams<{ id: string }>();
@@ -69,7 +69,7 @@ const BeerDetailsPage: FC = () => {
                     </div>
                     <div className="p-8">
                         {renderDetailItem("ID", currentBeer.id)}
-                        <EnrichedBeerData beer={currentBeer} variant="details"/>
+                        <EnrichedBeerDataLazy beer={currentBeer} variant="details"/>
                         {renderDetailItem("Price", currentBeer.price)}
                         <div className="mt-4">
                             <span className="text-gray-500">Rating: </span>
