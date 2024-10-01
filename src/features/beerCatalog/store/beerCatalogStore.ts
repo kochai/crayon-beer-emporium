@@ -1,6 +1,7 @@
 import {create} from 'zustand';
-import {Beer} from '../types/Beer';
+import {Beer} from '../../../types/Beer';
 import {fetchBeers} from '../api/beerCatalogApi';
+import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
 
 export type SortKey = 'name' | 'brand' | 'style' | 'abv' | 'price';
 type SortOrder = 'asc' | 'desc';
@@ -54,7 +55,7 @@ export const useBeerCatalogStore = create<BeerCatalogState>((set, get) => ({
         set({loading: true, error: null});
         try {
             const data = await fetchBeers();
-            set({beers: data, loading: false});
+            set({beers: data, loading: false})
         } catch (error) {
             console.error('Error fetching beers:', error);
             set({error: 'Failed to fetch beers. Please try again later.', loading: false});
@@ -76,11 +77,24 @@ export const useBeerCatalogStore = create<BeerCatalogState>((set, get) => ({
 
     getSortedAndFilteredBeers: () => {
         const {beers, sortKey, sortOrder, filters} = get();
+        if (isFeatureEnabled(FEATURES.DATA_ENRICHMENT)) {
+            return beers
+                .filter(beer =>
+                    beer.brand?.toLowerCase().includes(filters.brand.toLowerCase()) &&
+                    beer.style?.toLowerCase().includes(filters.style.toLowerCase()) &&
+                    beer.abv >= filters.minAbv && beer.abv <= filters.maxAbv &&
+                    parseFloat(beer.price.slice(1)) >= filters.minPrice &&
+                    parseFloat(beer.price.slice(1)) <= filters.maxPrice
+                )
+                .sort((a, b) => {
+                    if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
+                    if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
+                    return 0;
+                });
+        }
+
         return beers
             .filter(beer =>
-                beer.brand?.toLowerCase().includes(filters.brand.toLowerCase()) &&
-                beer.style?.toLowerCase().includes(filters.style.toLowerCase()) &&
-                beer.abv >= filters.minAbv && beer.abv <= filters.maxAbv &&
                 parseFloat(beer.price.slice(1)) >= filters.minPrice &&
                 parseFloat(beer.price.slice(1)) <= filters.maxPrice
             )
