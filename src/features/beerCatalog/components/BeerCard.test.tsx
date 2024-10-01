@@ -2,23 +2,13 @@ import {render} from '@testing-library/react';
 import {vi, describe, it} from 'vitest';
 import BeerCard from './BeerCard';
 import {MemoryRouter} from 'react-router-dom';
-import {Beer} from '../types/Beer';
 import {
     assertButtonClick,
     assertLinkInDocument,
     assertTextInDocument
 } from '../../../test/utils';
-
-const mockBeer: Beer = {
-    "price": "$16.99",
-    "name": "Founders All Day IPA",
-    "rating": {
-        "average": 4.411243509154233,
-        "reviews": 453
-    },
-    "image": "https://www.totalwine.com/media/sys_master/twmmedia/h00/h94/11891416367134.png",
-    "id": 1
-}
+import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
+import {mockEnhancedBeer} from '../../../utils/enrichBeerData';
 
 export const assertBeerCardContent = (name: string, price: string, rating: string, reviews: number) => {
     assertTextInDocument(name);
@@ -27,26 +17,45 @@ export const assertBeerCardContent = (name: string, price: string, rating: strin
     assertTextInDocument(`(${reviews})`);
 };
 
+export const assertEnhancedBeerCardContent = (style: string, abv: number, brand: string) => {
+    assertTextInDocument(`ABV: ${abv}%`);
+    assertTextInDocument(`Brand: ${brand}`);
+    assertTextInDocument(`Style: ${style}`);
+};
+
 describe('BeerCard', () => {
     it('renders beer card text correctly', async () => {
+        const beer = mockEnhancedBeer({
+            name: 'Custom Stout',
+            style: 'Stout',
+            abv: 8.0,
+            brand: 'Custom Brewery'
+        });
+
         render(
             <MemoryRouter>
-                <BeerCard beer={mockBeer}/>
+                <BeerCard beer={beer}/>
             </MemoryRouter>);
 
         assertBeerCardContent(
-            mockBeer.name,
-            mockBeer.price,
-            `${mockBeer.rating.average.toFixed(1)}`,
-            mockBeer.rating.reviews
+            beer.name,
+            beer.price,
+            `${beer.rating.average.toFixed(1)}`,
+            beer.rating.reviews
         )
+
+        if (isFeatureEnabled(FEATURES.DATA_ENRICHMENT)) {
+            assertEnhancedBeerCardContent(beer.style!, beer.abv!, beer.brand!);
+        }
     })
 
     it('ensures buy button is called once', async () => {
+        const beer = mockEnhancedBeer();
         const onBuyButtonClick = vi.fn();
+
         render(
             <MemoryRouter>
-                <BeerCard beer={mockBeer} onBuy={onBuyButtonClick}/>
+                <BeerCard beer={beer} onBuy={onBuyButtonClick}/>
             </MemoryRouter>
         );
 
@@ -57,12 +66,14 @@ describe('BeerCard', () => {
     })
 
     it('ensures details link is rendered with proper id', async () => {
+        const beer = mockEnhancedBeer();
+
         render(
             <MemoryRouter>
-                <BeerCard beer={mockBeer}/>
+                <BeerCard beer={beer}/>
             </MemoryRouter>
         );
 
-        assertLinkInDocument({name: 'Details', href: `/beer/${mockBeer.id}`});
+        assertLinkInDocument({name: 'Details', href: `/beer/${beer.id}`});
     })
 })
