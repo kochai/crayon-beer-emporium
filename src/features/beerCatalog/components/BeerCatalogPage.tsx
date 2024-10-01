@@ -1,13 +1,13 @@
 import {FC} from "React";
 import {useEffect} from 'react';
-import {useBeerCatalogStore} from '../../features/beerCatalog/store/beerStore';
-import BeerCard from '../../features/beerCatalog/components/BeerCard';
-import Header from '../../shared/Header';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import ErrorMessage from '../../shared/ErrorMessage';
-import BeerCatalogFilters from '../../features/beerCatalog/components/BeerCatalogFilters';
+import {useBeerCatalogStore} from '../store/beerCatalogStore';
+import BeerCard from './BeerCard';
+import Header from '../../../shared/Header';
+import LoadingSpinner from '../../../shared/LoadingSpinner';
+import ErrorMessage from '../../../shared/ErrorMessage';
+import BeerCatalogFilters from './BeerCatalogFilters';
 
-const LandingPage: FC = () => {
+const BeerCatalogPage: FC = () => {
     const {
         loading,
         error,
@@ -22,13 +22,9 @@ const LandingPage: FC = () => {
 
     const sortedAndFilteredBeers = getSortedAndFilteredBeers();
 
-    if (loading) {
-        return (<LoadingSpinner/>);
-    }
+    if (loading) return (<LoadingSpinner/>);
 
-    if (error) {
-        return (<ErrorMessage message={error}/>);
-    }
+    if (error) return (<ErrorMessage message={error}/>);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -48,4 +44,4 @@ const LandingPage: FC = () => {
     );
 };
 
-export default LandingPage;
+export default BeerCatalogPage;

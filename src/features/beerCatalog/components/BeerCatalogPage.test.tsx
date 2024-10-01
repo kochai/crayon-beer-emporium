@@ -1,10 +1,10 @@
 import {render, screen} from '@testing-library/react'
 import {describe, it, expect} from 'vitest'
-import LandingPage from './LandingPage'
+import BeerCatalogPage from './BeerCatalogPage'
 
-describe('LandingPage', () => {
+describe('BeerCatalogPage', () => {
     it('renders loading indicator', () => {
-        render(<LandingPage/>);
+        render(<BeerCatalogPage/>);
         expect(screen.getByLabelText('Loading')).toBeInTheDocument();
     })
 })
