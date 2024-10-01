@@ -1,12 +1,14 @@
 import {FC} from 'react';
+import {clsx} from 'clsx';
 
 type HeaderProps = {
     text: string;
+    className?: string;
 }
 
-const Header: FC<HeaderProps> = ({text, children}: HeaderProps) => {
+const Header: FC<HeaderProps> = ({text, className = 'flex-col', children}: HeaderProps) => {
     return (
-        <header className='flex flex-col gap-4'>
+        <header className={clsx(['flex gap-4', className])}>
             <h1 className="text-3xl font-bold underline">{text}</h1>
             {children}
         </header>
