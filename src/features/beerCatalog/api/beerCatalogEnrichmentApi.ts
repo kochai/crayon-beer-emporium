@@ -1,4 +1,4 @@
-import {Beer} from '../types/Beer';
+import {Beer} from '../../../types/Beer';
 import {APP_CONFIG} from '../../../config/appConfig';
 import {enrichBeerData} from '../../../utils/enrichBeerData';
 
