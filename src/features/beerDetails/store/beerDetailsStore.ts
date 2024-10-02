@@ -1,19 +1,21 @@
-import {Beer} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../types/Beer';
 import {create} from 'zustand';
 import {APP_CONFIG} from '../../../config/appConfig';
 import {isFeatureEnabled} from '../../../config/featureFlags';
 import {enrichBeerData} from '../../../utils/enrichBeerData';
 
-interface BeerDetailsState {
-    currentBeer: Beer | null;
+type BeerType = Beer | BeerEnhancedData;
+
+interface BeerDetailsState<T extends BeerType> {
+    currentBeer: T | null;
     loading: boolean;
     error: string | null;
     fetchBeerById: (id: string) => Promise<void>;
     clearCurrentBeer: () => void;
-    handleBuy: (beer: Beer) => void;
+    handleBuy: (beer: T) => void;
 }
 
-export const useBeerDetailsStore = create<BeerDetailsState>((set) => ({
+export const useBeerDetailsStore = create<BeerDetailsState<BeerType>>((set) => ({
     currentBeer: null,
     loading: false,
     error: null,

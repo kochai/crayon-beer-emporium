@@ -15,7 +15,7 @@ const BeerCard: FC<BeerCardProps> = ({beer, onBuy}) => (
     <div
         className="bg-white rounded-lg border shadow-md overflow-hidden h-full">
         <div className="flex p-4 h-full items-center">
-            <div className="flex-shrink-0 w-20 h-28 mr-4">
+            <div className="flex-shrink-0 w-20 h-28 mr-4 relative">
                 <ImagePlaceholder src={beer.image} alt={`${beer.name} bottle`}/>
             </div>
             <div className="flex-grow flex flex-col justify-between">

@@ -8,9 +8,9 @@ import {
     assertTextInDocument
 } from '../../../test/utils';
 import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
-import {Beer} from '../../../types/Beer';
+import {BeerEnhancedData} from '../../../types/Beer';
 
-export const mockEnhancedBeer = vi.fn((overrides: Partial<Beer> = {}): Beer => ({
+export const mockEnhancedBeer = vi.fn((overrides: Partial<BeerEnhancedData> = {}): BeerEnhancedData => ({
     id: 1,
     name: 'Mock IPA',
     price: '$9.99',
@@ -61,7 +61,7 @@ describe('BeerCard', () => {
         )
 
         if (isFeatureEnabled(FEATURES.DATA_ENRICHMENT)) {
-            assertEnhancedBeerCardContent(beer.style!, beer.abv!, beer.brand!);
+            assertEnhancedBeerCardContent(beer.style, beer.abv, beer.brand);
         }
     })
 

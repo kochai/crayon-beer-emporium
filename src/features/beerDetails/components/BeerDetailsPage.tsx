@@ -8,6 +8,7 @@ import ErrorMessage from '../../../shared/ErrorMessage';
 import Button, {buttonBaseClasses, buttonSizeClasses, buttonVariantClasses} from '../../../shared/Button';
 import clsx from 'clsx';
 import EnrichedBeerDataLazy from "../../beerCatalog/components/EnrichedBeerData";
+import {isEnhancedBeer} from "../../../utils/enrichBeerData";
 
 const BeerDetailsPage: FC = () => {
     const {id} = useParams<{ id: string }>();
@@ -31,7 +32,7 @@ const BeerDetailsPage: FC = () => {
         return (
             <div>
                 <span className="text-gray-500">
-                    {label}:
+                    {label}:&nbsp;
                 </span>
                 <span className="font-bold" aria-label={label}>
                     {value}
@@ -48,8 +49,8 @@ const BeerDetailsPage: FC = () => {
                     className={clsx([
                         'flex items-center text-center',
                         buttonBaseClasses,
-                        buttonVariantClasses['primary'],
-                        buttonSizeClasses['medium']
+                        buttonVariantClasses.primary,
+                        buttonSizeClasses.medium
                     ])}
                     aria-label="Back to beer catalog"
                 >
@@ -59,7 +60,7 @@ const BeerDetailsPage: FC = () => {
 
             <div className="mt-8 overflow-hidden">
                 <div className="md:flex">
-                    <div className="md:flex-shrink-0">
+                    <div className="md:flex-shrink-0 relative">
                         <ImagePlaceholder
                             src={currentBeer.image}
                             alt={currentBeer.name}
@@ -76,12 +77,12 @@ const BeerDetailsPage: FC = () => {
                             <span className="font-bold" aria-label="Average rating">
                                 {currentBeer.rating.average.toFixed(1)}
                                 <span className="text-sm text-gray-500">
-                                    ({currentBeer.rating.reviews} reviews)
+                                    &nbsp;({currentBeer.rating.reviews} reviews)
                                 </span>
                             </span>
                         </div>
                         {
-                            currentBeer.details && (
+                            isEnhancedBeer(currentBeer) && (
                                 <div className="mt-4">
                                     <h2 className="text-lg font-semibold">
                                         Details:

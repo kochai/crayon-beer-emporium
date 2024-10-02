@@ -1,7 +1,7 @@
 import {create} from 'zustand';
-import {Beer} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../types/Beer';
 import {fetchBeers} from '../api/beerCatalogApi';
-import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
+import {isEnhancedBeer} from '../../../utils/enrichBeerData';
 
 export type SortKey = 'name' | 'brand' | 'style' | 'abv' | 'price';
 type SortOrder = 'asc' | 'desc';
@@ -15,8 +15,10 @@ interface Filters {
     maxPrice: number;
 }
 
-interface BeerCatalogState {
-    beers: Beer[];
+type BeerType = Beer | BeerEnhancedData;
+
+interface BeerCatalogState<T extends BeerType> {
+    beers: T[];
     loading: boolean;
     error: string | null;
     sortKey: SortKey;
@@ -27,8 +29,8 @@ interface BeerCatalogState {
     setSortOrder: (order: SortOrder) => void;
     setFilter: (key: keyof Filters, value: string | number) => void;
     resetFilters: () => void;
-    getSortedAndFilteredBeers: () => Beer[];
-    handleBuy: (beer: Beer) => void;
+    getSortedAndFilteredBeers: () => T[];
+    handleBuy: (beer: T) => void;
 }
 
 export const beerStyles = ['IPA', 'Stout', 'Lager', 'Pale Ale', 'Porter'];
@@ -43,7 +45,7 @@ const initialFilters: Filters = {
     maxPrice: 1000,
 };
 
-export const useBeerCatalogStore = create<BeerCatalogState>((set, get) => ({
+export const useBeerCatalogStore = create<BeerCatalogState<BeerType>>((set, get) => ({
     beers: [],
     loading: false,
     error: null,
@@ -55,7 +57,7 @@ export const useBeerCatalogStore = create<BeerCatalogState>((set, get) => ({
         set({loading: true, error: null});
         try {
             const data = await fetchBeers();
-            set({beers: data, loading: false})
+            set({beers: data, loading: false});
         } catch (error) {
             console.error('Error fetching beers:', error);
             set({error: 'Failed to fetch beers. Please try again later.', loading: false});
@@ -70,39 +72,43 @@ export const useBeerCatalogStore = create<BeerCatalogState>((set, get) => ({
     })),
 
     resetFilters: () => {
-        set({filters: initialFilters});
-        set({sortKey: 'name'});
-        set({sortOrder: 'asc'});
+        set({filters: initialFilters, sortKey: 'name', sortOrder: 'asc'});
     },
 
     getSortedAndFilteredBeers: () => {
         const {beers, sortKey, sortOrder, filters} = get();
-        if (isFeatureEnabled(FEATURES.DATA_ENRICHMENT)) {
-            return beers
-                .filter(beer =>
-                    beer.brand?.toLowerCase().includes(filters.brand.toLowerCase()) &&
-                    beer.style?.toLowerCase().includes(filters.style.toLowerCase()) &&
-                    beer.abv >= filters.minAbv && beer.abv <= filters.maxAbv &&
-                    parseFloat(beer.price.slice(1)) >= filters.minPrice &&
-                    parseFloat(beer.price.slice(1)) <= filters.maxPrice
-                )
-                .sort((a, b) => {
-                    if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
-                    if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
-                    return 0;
-                });
-        }
 
-        return beers
-            .filter(beer =>
-                parseFloat(beer.price.slice(1)) >= filters.minPrice &&
-                parseFloat(beer.price.slice(1)) <= filters.maxPrice
-            )
-            .sort((a, b) => {
-                if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
-                if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
-                return 0;
-            });
+        const filteredBeers = beers.filter(beer => {
+            const price = parseFloat(beer.price.slice(1));
+            if (price < filters.minPrice || price > filters.maxPrice) {
+                return false;
+            }
+
+            if (isEnhancedBeer(beer)) {
+                return (
+                    beer.brand.toLowerCase().includes(filters.brand.toLowerCase()) &&
+                    beer.style.toLowerCase().includes(filters.style.toLowerCase()) &&
+                    beer.abv >= filters.minAbv && beer.abv <= filters.maxAbv
+                );
+            }
+
+            return true;
+        });
+
+        return filteredBeers.sort((a, b) => {
+            if (sortKey === 'abv' || sortKey === 'brand' || sortKey === 'style') {
+                if (isEnhancedBeer(a) && isEnhancedBeer(b)) {
+                    return sortOrder === 'asc'
+                        ? (a[sortKey] as string).localeCompare(b[sortKey] as string)
+                        : (b[sortKey] as string).localeCompare(a[sortKey] as string);
+                }
+                return isEnhancedBeer(a) ? -1 : 1;
+            }
+
+            return sortOrder === 'asc'
+                ? a[sortKey].localeCompare(b[sortKey])
+                : b[sortKey].localeCompare(a[sortKey]);
+        });
     },
 
     handleBuy: (beer) => {

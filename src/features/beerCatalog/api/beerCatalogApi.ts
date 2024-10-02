@@ -1,4 +1,4 @@
-import {Beer} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../types/Beer';
 import {APP_CONFIG} from '../../../config/appConfig';
 import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
 import {fetchAndEnrichBeers} from './beerCatalogEnrichmentApi';
@@ -11,10 +11,9 @@ const fetchData = async (): Promise<Beer[]> => {
     return response.json();
 }
 
-export const fetchBeers = async (): Promise<Beer[]> => {
+export const fetchBeers = async (): Promise<Beer[] | BeerEnhancedData[]> => {
     if (isFeatureEnabled(FEATURES.DATA_ENRICHMENT)) {
         return fetchAndEnrichBeers();
     }
-    debugger
     return fetchData();
 };
