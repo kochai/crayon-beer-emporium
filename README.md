@@ -32,7 +32,7 @@ src/
       components/
       store/
       api/
-    beerRecommendations/
+    mlRecommendations/
       components/
       store/
       api/
