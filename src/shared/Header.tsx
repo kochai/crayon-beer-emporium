@@ -1,9 +1,10 @@
-import {FC} from 'react';
+import {FC, ReactNode} from 'react';
 import {clsx} from 'clsx';
 
 type HeaderProps = {
     text: string;
     className?: string;
+    children?: ReactNode;
 }
 
 const Header: FC<HeaderProps> = ({text, className = 'flex-col', children}: HeaderProps) => {
