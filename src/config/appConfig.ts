@@ -8,3 +8,5 @@ export const APP_CONFIG = {
         RTL: false,
     },
 };
+
+export type AppConfig = keyof typeof APP_CONFIG;
