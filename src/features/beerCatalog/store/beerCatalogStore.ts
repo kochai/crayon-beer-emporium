@@ -1,7 +1,7 @@
 import {create} from 'zustand';
-import {Beer, BeerEnhancedData} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../shared/types/Beer';
 import {fetchBeers} from '../api/beerCatalogApi';
-import {isEnhancedBeer} from '../../../utils/enrichBeerData';
+import {isEnhancedBeer} from '../../../shared/utils/enrichBeerData';
 
 export type SortKey = 'name' | 'brand' | 'style' | 'abv' | 'price';
 type SortOrder = 'asc' | 'desc';

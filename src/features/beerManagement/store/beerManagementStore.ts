@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 
-import {BeerWithSales} from '../../../types/Beer';
+import {BeerWithSales} from '../../../shared/types/Beer';
 import {fetchBeersWithSales} from '../api/addSalesCount';
 
 interface BeerManagementState {

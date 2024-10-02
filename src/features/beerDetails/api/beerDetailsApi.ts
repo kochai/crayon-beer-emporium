@@ -1,4 +1,4 @@
-import {Beer} from '../../../types/Beer';
+import {Beer} from '../../../shared/types/Beer';
 import {APP_CONFIG} from '../../../config/appConfig';
 import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
 import {fetchAndEnrichBeerDetails} from "./beerDetailsEnrichmentApi";

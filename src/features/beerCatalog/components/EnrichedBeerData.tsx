@@ -1,6 +1,6 @@
 import {FC} from 'react';
 import {EnrichedBeerDataLazyProps} from './EnrichedBeerDataLazy';
-import {isEnhancedBeer} from '../../../utils/enrichBeerData';
+import {isEnhancedBeer} from '../../../shared/utils/enrichBeerData';
 
 const EnrichedBeerData: FC<EnrichedBeerDataLazyProps> = ({beer, variant}) => {
     if (variant === 'card') {

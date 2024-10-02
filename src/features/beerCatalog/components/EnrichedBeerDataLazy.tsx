@@ -1,5 +1,5 @@
 import {FC, lazy} from 'react';
-import {Beer, BeerEnhancedData} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../shared/types/Beer';
 import LazyFeature from '../../../shared/LazyFeature';
 
 export interface EnrichedBeerDataLazyProps {

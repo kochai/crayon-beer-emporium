@@ -1,7 +1,7 @@
 import {FC, FormEvent, useState} from 'react';
 import Button from '../../../shared/Button';
 import InputWithLabel from '../../../shared/InputWithLabel';
-import {BeerWithSales} from '../../../types/Beer';
+import {BeerWithSales} from '../../../shared/types/Beer';
 
 interface AddBeerFormProps {
     onSubmit: (beer: Omit<BeerWithSales, 'id'>) => void;

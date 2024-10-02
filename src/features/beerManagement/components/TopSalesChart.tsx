@@ -6,7 +6,7 @@ import {AxisLeft, AxisBottom} from '@visx/axis';
 import {useTooltip, TooltipWithBounds, defaultStyles} from '@visx/tooltip';
 import {ParentSize} from '@visx/responsive';
 import {localPoint} from '@visx/event';
-import {BeerWithSales} from '../../../types/Beer';
+import {BeerWithSales} from '../../../shared/types/Beer';
 
 interface TopSalesChartProps {
     data: BeerWithSales[];

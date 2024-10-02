@@ -8,7 +8,7 @@ import {
     assertTextInDocument
 } from '../../../test/utils';
 import {FEATURES, isFeatureEnabled} from '../../../config/featureFlags';
-import {BeerEnhancedData} from '../../../types/Beer';
+import {BeerEnhancedData} from '../../../shared/types/Beer';
 
 export const mockEnhancedBeer = vi.fn((overrides: Partial<BeerEnhancedData> = {}): BeerEnhancedData => ({
     id: 1,

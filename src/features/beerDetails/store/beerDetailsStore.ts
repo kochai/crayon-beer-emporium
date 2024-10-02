@@ -1,8 +1,8 @@
-import {Beer, BeerEnhancedData} from '../../../types/Beer';
+import {Beer, BeerEnhancedData} from '../../../shared/types/Beer';
 import {create} from 'zustand';
 import {APP_CONFIG} from '../../../config/appConfig';
 import {isFeatureEnabled} from '../../../config/featureFlags';
-import {enrichBeerData} from '../../../utils/enrichBeerData';
+import {enrichBeerData} from '../../../shared/utils/enrichBeerData';
 
 type BeerType = Beer | BeerEnhancedData;
 

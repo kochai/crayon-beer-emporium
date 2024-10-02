@@ -1,7 +1,7 @@
 import {FC} from 'react';
 import {Link} from 'react-router-dom';
 
-import {Beer} from '../../../types/Beer';
+import {Beer} from '../../../shared/types/Beer';
 import ImagePlaceholder from '../../../shared/ImagePlaceholder';
 import Button from '../../../shared/Button';
 import EnrichedBeerDataLazy from './EnrichedBeerData';

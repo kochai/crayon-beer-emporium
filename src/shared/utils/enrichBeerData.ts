@@ -1,5 +1,5 @@
 import {Beer, BeerEnhancedData, BeerWithSales} from '../types/Beer';
-import {beerStyles, breweries} from '../features/beerCatalog/store/beerCatalogStore';
+import {beerStyles, breweries} from '../../features/beerCatalog/store/beerCatalogStore';
 
 const getRandomElement = <T>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)];

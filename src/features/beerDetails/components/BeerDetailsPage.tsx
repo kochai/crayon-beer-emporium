@@ -7,8 +7,8 @@ import ImagePlaceholder from '../../../shared/ImagePlaceholder';
 import ErrorMessage from '../../../shared/ErrorMessage';
 import Button, {buttonBaseClasses, buttonSizeClasses, buttonVariantClasses} from '../../../shared/Button';
 import clsx from 'clsx';
-import EnrichedBeerDataLazy from "../../beerCatalog/components/EnrichedBeerData";
-import {isEnhancedBeer} from "../../../utils/enrichBeerData";
+import EnrichedBeerDataLazy from '../../beerCatalog/components/EnrichedBeerData';
+import {isEnhancedBeer} from '../../../shared/utils/enrichBeerData';
 
 const BeerDetailsPage: FC = () => {
     const {id} = useParams<{ id: string }>();

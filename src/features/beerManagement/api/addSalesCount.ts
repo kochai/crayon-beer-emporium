@@ -1,6 +1,6 @@
-import {Beer, BeerEnhancedData, BeerWithSales} from '../../../types/Beer';
+import {Beer, BeerEnhancedData, BeerWithSales} from '../../../shared/types/Beer';
 import {APP_CONFIG} from '../../../config/appConfig';
-import {enrichBeerData} from '../../../utils/enrichBeerData';
+import {enrichBeerData} from '../../../shared/utils/enrichBeerData';
 
 export const addSalesCount = (beers: BeerEnhancedData[]): BeerWithSales[] => {
     return beers.map(beer => ({
