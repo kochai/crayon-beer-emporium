@@ -24,13 +24,13 @@ const Select: FC<SelectProps> = ({
                                      className,
                                      ...props
                                  }) => (
-    <div className={clsx(["flex items-center", wrapperClassName])}>
+    <div className={clsx(["flex sm:items-center flex-col sm:flex-row", wrapperClassName])}>
         <label htmlFor={id} className="mr-2">{label}</label>
         <select
             id={id}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className={clsx(['border rounded p-1', className])}
+            className={clsx(['border rounded p-1 w-full sm:w-auto', className])}
             {...props}
         >
             {options.map((option) => (
