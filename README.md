@@ -1,50 +1,119 @@
-# React + TypeScript + Vite
+# Craft Beer Emporium Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based frontend application using Vite for Craft Beer Emporium, an online web store specializing in craft beers from breweries around the globe.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Craft Beer Emporium's frontend is designed to be modular, scalable, and easily maintainable. It showcases a catalog of beers, allows for detailed views of individual beers, and includes a management interface for tracking sales and adding new products.
 
-## Expanding the ESLint configuration
+### Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Display a grid of beers with sorting and filtering capabilities
+- Detailed view for individual beers
+- Management view for top-selling beers and beer management
+- Feature flag system for gradual feature rollout
+- Responsive design for various screen sizes
+- Lazy loaded components based on feature flags and pages for better optimization
+- Fully accessible components for people with disabilities 
 
-- Configure the top-level `parserOptions` property like this:
+## Project Structure
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+The project follows a feature-based folder structure:
+
+```
+src/
+  features/
+    beerCatalog/
+      components/
+      store/
+      api/
+      types/
+    beerManagement/
+      components/
+      store/
+      api/
+    beerRecommendations/
+      components/
+      store/
+      api/
+  shared/
+    components/
+    utils/
+    types/
+  config/
+    featureFlags.ts
+    appConfig.ts
+  App.tsx
+  index.tsx
+  index.css
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+This structure allows for easy scalability and maintainability, with each feature having its own set of components, store, and API calls.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Technologies Used
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- React.js
+- TypeScript
+- Zustand for state management
+- Visx for data visualization
+- React Router for navigation
+- Tailwind CSS for styling
+
+## Testing
+
+The project uses Vitest and React Testing Library for unit and integration testing. Test files are co-located with the components they test.
+
+To run tests:
+
+```bash
+npm run test
 ```
+
+## Feature Flags
+
+The application uses a feature flag system to enable gradual rollout of new features. Current feature flags include:
+
+- `USE_ML_RECOMMENDATION`: Enables machine learning-based beer recommendations
+- `DATA_ENRICHMENT`: Enables enhanced beer data with additional attributes
+
+Feature flags are managed in `src/config/featureFlags.ts`.
+
+## Data Models
+
+The application handles three types of beer data models:
+
+1. `Beer`: Basic beer information
+2. `BeerEnhancedData`: Extended beer information (available when `DATA_ENRICHMENT` is enabled)
+3. `BeerWithSales`: Basic beer information with sales data
+
+## Setup and Running
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Building for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+The application is designed to be deployed to a cloud environment. It supports containerization for easy deployment and scalability.
+
+## Future Enhancements
+
+- Integration with a backend microservice architecture
+- Implementation of user authentication and personalized recommendations
+- Enhanced data visualization in the management view
+- Animation of chart visualizations
+- Support for multiple languages and right-to-left layouts
