@@ -10,6 +10,7 @@ export const isFeatureEnabled = (feature: string): boolean => {
      */
     const enabledFeatures = [
         FEATURES.DATA_ENRICHMENT,
+        FEATURES.USE_ML_RECOMMENDATIONS
     ];
     return enabledFeatures.includes(feature);
 };
