@@ -33,7 +33,7 @@ const EnhancedBeerCatalogFilters: FC = () => {
                 />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mb-4">
-                <fieldset className="border p-2 rounded">
+                <fieldset className="border p-2 rounded contents sm:block">
                     <legend className="text-sm font-medium text-gray-700">ABV Range</legend>
                     <div className="flex gap-2">
                         <InputWithLabel
