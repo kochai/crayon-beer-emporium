@@ -1,5 +1,7 @@
 import {expect} from 'vitest';
-import {screen, fireEvent} from '@testing-library/react';
+import {screen, fireEvent, Matcher} from '@testing-library/react';
+
+type QueryMethod = keyof typeof screen;
 
 interface AssertTextOptions {
     exact?: boolean;
@@ -21,8 +23,14 @@ export const assertTextInDocument = (
     text: string,
     options: AssertTextOptions = {}
 ) => {
-    const {exact = true, queryMethod = 'getByText'} = options;
-    const element = screen[queryMethod](text, {exact});
+    const { exact = true, queryMethod = 'getByText' } = options;
+
+    const queryFn = screen[queryMethod as QueryMethod] as (
+        matcher: Matcher,
+        options?: { exact?: boolean }
+    ) => HTMLElement;
+
+    const element = queryFn(text, { exact });
     expect(element).toBeInTheDocument();
 };
 
