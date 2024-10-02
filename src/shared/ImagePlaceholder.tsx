@@ -1,5 +1,6 @@
 import {FC, useState} from 'react';
 import {clsx} from 'clsx';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ImagePlaceholderProps {
     src: string;
@@ -15,9 +16,14 @@ const ImagePlaceholder: FC<ImagePlaceholderProps> = ({
                                                          placeholderClassName
                                                      }) => {
     const [imageError, setImageError] = useState(false);
+    const [imageLoad, setImageLoad] = useState(false);
 
     const handleImageError = () => {
         setImageError(true);
+    };
+
+    const handleImageLoad = () => {
+        setImageLoad(true);
     };
 
     if (imageError) {
@@ -31,12 +37,16 @@ const ImagePlaceholder: FC<ImagePlaceholderProps> = ({
     }
 
     return (
-        <img
-            src={src}
-            alt={alt}
-            className={clsx(["w-full h-full object-contain rounded", className])}
-            onError={handleImageError}
-        />
+        <>
+            <img
+                src={src}
+                alt={alt}
+                className={clsx(["w-full h-full object-contain rounded", className])}
+                onError={handleImageError}
+                onLoad={handleImageLoad}
+            />
+            {!imageLoad && <LoadingSpinner variant='inline' />}
+        </>
     );
 };
 
