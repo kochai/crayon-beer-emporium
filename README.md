@@ -32,10 +32,12 @@ src/
       components/
       store/
       api/
-    mlRecommendations/
+    beerDetails/
       components/
       store/
       api/
+    mlRecommendations/
+      components/
   shared/
     components/
     utils/
